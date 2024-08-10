@@ -1,5 +1,4 @@
 import Movie from "./Movie";
-
 const MoviesList = (props) => {
   return (
     <ul>

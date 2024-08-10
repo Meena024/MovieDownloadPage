@@ -38,7 +38,6 @@ function App() {
       setIsLoading(false);
     }
   }
-
   function cancelRetryHandler() {
     clearInterval(retryIntervalRef.current);
     setRetrying(false);
