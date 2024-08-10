@@ -44,6 +44,9 @@ function App() {
     setError("Retrying cancelled.");
   }
 
+
+  
+
   let content = <p>Found no movies!</p>;
 
   if (movies.length > 0) {
