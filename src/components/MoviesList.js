@@ -3,11 +3,14 @@ const MoviesList = (props) => {
   return (
     <ul>
       {props.movies.map((movie) => (
-        <Movie
-          title={movie.title}
-          releaseDate={movie.release}
-          openingText={movie.openingText}
-        />
+        <div>
+          <Movie
+            title={movie.title}
+            releaseDate={movie.releaseDate}
+            openingText={movie.openingText}
+          />
+          <button onClick={() => props.onDeleteMovie(movie.id)}>Delete</button>
+        </div>
       ))}
     </ul>
   );

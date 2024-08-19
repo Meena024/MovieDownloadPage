@@ -31,15 +31,6 @@ function App() {
           releaseDate: data[key].releaseDate,
         });
       }
-
-      // const transformedMovies = data.results.map((movieData) => {
-      //   return {
-      //     id: movieData.episode_id,
-      //     title: movieData.title,
-      //     openingText: movieData.opening_crawl,
-      //     releaseDate: movieData.release_date,
-      //   };
-      // });
       setMovies(loadedMovies);
       setIsLoading(false);
       clearInterval(retryIntervalRef.current);
@@ -70,8 +61,29 @@ function App() {
     );
     const data = await response.json();
     console.log(data);
+    fetchMoviesHandler();
   }
+  async function deleteMovieHandler(movieId) {
+    try {
+      const response = await fetch(
+        `https://react-http-91c04-default-rtdb.firebaseio.com/movies/${movieId}.json`,
+        {
+          method: "DELETE",
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error("Failed to delete the movie.");
+      }
+
+      // Update the movies state after deleting the movie
+      setMovies((prevMovies) =>
+        prevMovies.filter((movie) => movie.id !== movieId)
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
   function cancelRetryHandler() {
     clearInterval(retryIntervalRef.current);
     setRetrying(false);
@@ -81,7 +93,7 @@ function App() {
   let content = <p>Found no movies!</p>;
 
   if (movies.length > 0) {
-    content = <MoviesList movies={movies} />;
+    content = <MoviesList movies={movies} onDeleteMovie={deleteMovieHandler} />;
   }
 
   if (error) {
